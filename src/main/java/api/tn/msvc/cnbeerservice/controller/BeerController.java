@@ -3,6 +3,7 @@ package api.tn.msvc.cnbeerservice.controller;
 import api.tn.msvc.cnbeerservice.model.Beer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -18,14 +19,14 @@ public class BeerController {
     }
 
     @PostMapping
-    public ResponseEntity<Beer> saveBeer(@RequestBody Beer beer){
+    public ResponseEntity<Beer> saveBeer(@RequestBody @Validated Beer beer){
         // TODO: complete impl
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @PutMapping("/{beerId}")
     public ResponseEntity<Beer> updateBeerById(@PathVariable("beerId") UUID beerId,
-                                               @RequestBody Beer beer){
+                                               @RequestBody @Validated Beer beer){
         // TODO: complete impl
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
