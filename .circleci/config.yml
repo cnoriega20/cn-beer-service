@@ -13,7 +13,7 @@ jobs:
       - image: circleci/openjdk:stretch
     steps:
       - checkout
-      - run: ./mvnw -Dmaven.test.skip=true package
+      - run: sudo chmod +x ./mvnw -Dmaven.test.skip=true package
 
 workflows:
   version: 2
