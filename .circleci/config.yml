@@ -6,4 +6,4 @@ jobs:
       - image: circleci/openjdk:stretch
     steps:
       - checkout
-      - run: ./mvnw.cmd package
+      - run: .\mvnw.cmd clean install
