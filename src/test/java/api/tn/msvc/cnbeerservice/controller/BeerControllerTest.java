@@ -23,6 +23,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -48,8 +50,20 @@ class BeerControllerTest {
         mockMvc.perform(get("/api/v1/tn/beerService/{beerId}",
                 UUID.randomUUID().toString()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("api/v1/tn/beerService/", pathParameters(
-                        parameterWithName("beerId").description("UUID for the desired beer to get")
+                .andDo(document("api/v1/tn/beerService/",
+                        pathParameters(
+                            parameterWithName("beerId").description("UUID for the desired beer to get")
+                ),
+                        responseFields(
+                                fieldWithPath("id").description("Id of the Beer"),
+                                fieldWithPath("version").description("Version number"),
+                                fieldWithPath("createdDate").description("Date of creation"),
+                                fieldWithPath("lastModifiedDate").description("Date of last update"),
+                                fieldWithPath("beerName").description("Beer name"),
+                                fieldWithPath("beerStyle").description("Beer style"),
+                                fieldWithPath("upc").description("UPC of the Beer"),
+                                fieldWithPath("price").description("Price of the Beer"),
+                                fieldWithPath("quantityOnHand").description("Quantity on Hand")
                 )));
         /*ResultActions resultActions = mockMvc.perform(get("/api/v1/tn/beerService/" +
                 UUID.randomUUID().toString()).accept(MediaType.APPLICATION_JSON))
