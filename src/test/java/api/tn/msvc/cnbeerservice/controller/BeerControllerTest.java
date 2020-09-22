@@ -62,5 +62,5 @@ class BeerControllerTest {
                 .content(beerToJson))
                 .andExpect(status().isNoContent());
     }
-    // TODO: Fix Validation errors
+
 }
