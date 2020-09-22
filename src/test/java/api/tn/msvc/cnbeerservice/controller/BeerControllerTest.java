@@ -1,22 +1,30 @@
 package api.tn.msvc.cnbeerservice.controller;
 
+import api.tn.msvc.cnbeerservice.domain.BeerEntity;
 import api.tn.msvc.cnbeerservice.model.Beer;
 import api.tn.msvc.cnbeerservice.model.BeerStyleEnum;
+import api.tn.msvc.cnbeerservice.repositories.BeerRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(RestDocumentationExtension.class)
@@ -27,14 +35,25 @@ class BeerControllerTest {
     @Autowired
     MockMvc mockMvc;
 
+    @MockBean
+    BeerRepository beerRepository;
+
     @Autowired
     ObjectMapper objectMapper;
 
     @Test
     void testGetBeerById() throws Exception {
-        ResultActions resultActions = mockMvc.perform(get("/api/v1/tn/beerService/" +
+        given(beerRepository.findById(any())).willReturn(Optional.of(BeerEntity.builder().build()));
+
+        mockMvc.perform(get("/api/v1/tn/beerService/{beerId}",
                 UUID.randomUUID().toString()).accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andDo(document("/v1/tn/beerService/", pathParameters(
+                        parameterWithName("beerId").description("UUID for the desired beer to get")
+                )));
+        /*ResultActions resultActions = mockMvc.perform(get("/api/v1/tn/beerService/" +
+                UUID.randomUUID().toString()).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());*/
     }
 
     @Test
