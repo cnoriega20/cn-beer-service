@@ -48,7 +48,7 @@ class BeerControllerTest {
         mockMvc.perform(get("/api/v1/tn/beerService/{beerId}",
                 UUID.randomUUID().toString()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("/v1/tn/beerService/", pathParameters(
+                .andDo(document("api/v1/tn/beerService/", pathParameters(
                         parameterWithName("beerId").description("UUID for the desired beer to get")
                 )));
         /*ResultActions resultActions = mockMvc.perform(get("/api/v1/tn/beerService/" +
