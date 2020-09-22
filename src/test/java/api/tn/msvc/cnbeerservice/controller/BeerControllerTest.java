@@ -53,7 +53,7 @@ class BeerControllerTest {
         mockMvc.perform(get("/api/v1/tn/beerService/{beerId}",
                 UUID.randomUUID().toString()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("api/v1/tn/beerService/",
+                .andDo(document("api/v1/tn/beerService-get/",
                         pathParameters(
                             parameterWithName("beerId").description("UUID for the desired beer to get")
                 ),
@@ -89,7 +89,7 @@ class BeerControllerTest {
         .contentType(MediaType.APPLICATION_JSON)
         .content(beerToJson))
         .andExpect(status().isCreated())
-        .andDo(document("api/v1/tn/beerService/",
+        .andDo(document("api/v1/tn/beerService-new/",
                 requestFields(
                         constrainedFields.withPath("id").ignored(),
                         constrainedFields.withPath("version").ignored(),
