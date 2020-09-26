@@ -38,8 +38,7 @@ public class Beer {
     private BeerStyleEnum beerStyle;
 
     @NotNull
-    @Positive
-    private Long upc;
+    private String upc;
 
     @NotNull
     @Positive

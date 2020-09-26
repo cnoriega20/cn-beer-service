@@ -1,5 +1,6 @@
 package api.tn.msvc.cnbeerservice.controller;
 
+import api.tn.msvc.cnbeerservice.loader.BeerLoader;
 import api.tn.msvc.cnbeerservice.model.Beer;
 import api.tn.msvc.cnbeerservice.model.BeerStyleEnum;
 import api.tn.msvc.cnbeerservice.services.BeerService;
@@ -129,7 +130,7 @@ class BeerControllerTest {
         return Beer.builder().beerName("Cuzquena")
                 .price(new BigDecimal(4.75))
                 .beerStyle(BeerStyleEnum.PILSNER)
-                .upc(2366791L)
+                .upc(BeerLoader.BEER_1_UPC)
                 .build();
     }
 }
