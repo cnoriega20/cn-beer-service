@@ -1,9 +1,8 @@
 package api.tn.msvc.cnbeerservice.controller;
 
-import api.tn.msvc.cnbeerservice.domain.BeerEntity;
 import api.tn.msvc.cnbeerservice.model.Beer;
 import api.tn.msvc.cnbeerservice.model.BeerStyleEnum;
-import api.tn.msvc.cnbeerservice.repositories.BeerRepository;
+import api.tn.msvc.cnbeerservice.services.BeerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -41,14 +39,14 @@ class BeerControllerTest {
     MockMvc mockMvc;
 
     @MockBean
-    BeerRepository beerRepository;
+    BeerService beerService;
 
     @Autowired
     ObjectMapper objectMapper;
 
     @Test
     void testGetBeerById() throws Exception {
-        given(beerRepository.findById(any())).willReturn(Optional.of(BeerEntity.builder().build()));
+        given(beerService.getById(any())).willReturn(getValidBeer());
 
         mockMvc.perform(get("/api/v1/tn/beerService/{beerId}",
                 UUID.randomUUID().toString()).accept(MediaType.APPLICATION_JSON))
@@ -75,12 +73,10 @@ class BeerControllerTest {
 
     @Test
     void testSaveBeer() throws Exception {
-        Beer beer = Beer.builder()
-                .beerName("Heineken")
-                .price(new BigDecimal(17))
-                .beerStyle(BeerStyleEnum.PILSNER)
-                .upc(23667891L)
-                .build();
+
+        given(beerService.saveBeer(any())).willReturn(getValidBeer());
+
+        Beer beer = getValidBeer();
         String beerToJson = objectMapper.writeValueAsString(beer);
 
         ConstrainedFields constrainedFields = new ConstrainedFields(Beer.class);
@@ -105,12 +101,8 @@ class BeerControllerTest {
 
     @Test
     void testUpdateBeerById() throws Exception {
-        Beer beer = Beer.builder()
-                .beerName("Cuzquena")
-                .price(new BigDecimal(25))
-                .beerStyle(BeerStyleEnum.PILSNER)
-                .upc(2366791L)
-                .build();
+        given(beerService.updateBeer(any(), any())).willReturn(getValidBeer());
+        Beer beer = getValidBeer();
         String beerToJson = objectMapper.writeValueAsString(beer);
 
         mockMvc.perform(put("/api/v1/tn/beerService/" + UUID.randomUUID().toString())
@@ -133,5 +125,11 @@ class BeerControllerTest {
         }
     }
 
-
+    private Beer getValidBeer() {
+        return Beer.builder().beerName("Cuzquena")
+                .price(new BigDecimal(4.75))
+                .beerStyle(BeerStyleEnum.PILSNER)
+                .upc(2366791L)
+                .build();
+    }
 }
