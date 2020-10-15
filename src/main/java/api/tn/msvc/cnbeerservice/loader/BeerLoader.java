@@ -4,11 +4,10 @@ import api.tn.msvc.cnbeerservice.domain.BeerEntity;
 import api.tn.msvc.cnbeerservice.repositories.BeerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
-@Component
+//@Component
 @Slf4j
 public class BeerLoader implements CommandLineRunner {
 
