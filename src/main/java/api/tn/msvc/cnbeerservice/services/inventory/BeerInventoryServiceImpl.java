@@ -25,7 +25,6 @@ public class BeerInventoryServiceImpl implements BeerInventoryService {
     private String beerInventoryServiceHost;
 
 
-
     public BeerInventoryServiceImpl(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
     }
