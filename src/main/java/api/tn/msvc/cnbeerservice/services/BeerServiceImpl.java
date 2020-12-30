@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -41,12 +42,23 @@ public class BeerServiceImpl implements BeerService {
             beerPage = beerRepository.findAll(pageRequest);
         }
 
-        beerPagedList = new BeerPagedList(
+        beerPagedList = new BeerPagedList(beerPage
+        .getContent()
+        .stream()
+        .map(beerMapper::mapBeerEntityToBeer)
+        .collect(Collectors.toList()),
+        PageRequest
+                .of(beerPage.getPageable().getPageNumber(),
+                        beerPage.getPageable().getPageSize()),
+
+        beerPage.getTotalElements());
+
+        /*beerPagedList = new BeerPagedList(
                 beerMapper.convertToBeerList(beerPage.getContent()),
                 PageRequest.
                         of(beerPage.getPageable().getPageNumber(),
                                 beerPage.getPageable().getPageSize()),
-                beerPage.getTotalElements());
+                beerPage.getTotalElements());*/
 
         return beerPagedList;
     }
