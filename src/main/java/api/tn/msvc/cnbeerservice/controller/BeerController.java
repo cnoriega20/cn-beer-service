@@ -45,9 +45,13 @@ public class BeerController {
     }
 
     @GetMapping("/{beerId}")
-    public ResponseEntity<Beer> getBeerById(@PathVariable("beerId") UUID beerId){
-
-        return new ResponseEntity<Beer>(beerService.getById(beerId), HttpStatus.OK);
+    public ResponseEntity<Beer> getBeerById(@PathVariable("beerId") UUID beerId,
+                                            @RequestParam(value = "showInventoryOnHand",required = false)
+                                                    Boolean showInventoryOnHand){
+        if(showInventoryOnHand == null) {
+            showInventoryOnHand = false;
+        }
+        return new ResponseEntity<Beer>(beerService.getById(beerId, showInventoryOnHand), HttpStatus.OK);
     }
 
     @PostMapping
