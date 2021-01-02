@@ -42,23 +42,29 @@ public class BeerServiceImpl implements BeerService {
             beerPage = beerRepository.findAll(pageRequest);
         }
 
-        beerPagedList = new BeerPagedList(beerPage
-        .getContent()
-        .stream()
-        .map(beerMapper::mapBeerEntityToBeer)
-        .collect(Collectors.toList()),
-        PageRequest
-                .of(beerPage.getPageable().getPageNumber(),
-                        beerPage.getPageable().getPageSize()),
+        if(showInventoryOnHand){
+            beerPagedList = new BeerPagedList(beerPage
+                    .getContent()
+                    .stream()
+                    .map(beerMapper::mapBeerEntityToBeerWithInventoryData)
+                    .collect(Collectors.toList()),
+                    PageRequest
+                            .of(beerPage.getPageable().getPageNumber(),
+                                    beerPage.getPageable().getPageSize()),
 
-        beerPage.getTotalElements());
+                    beerPage.getTotalElements());
+        } else {
+            beerPagedList = new BeerPagedList(beerPage
+                    .getContent()
+                    .stream()
+                    .map(beerMapper::mapBeerEntityToBeer)
+                    .collect(Collectors.toList()),
+                    PageRequest
+                            .of(beerPage.getPageable().getPageNumber(),
+                                    beerPage.getPageable().getPageSize()),
 
-        /*beerPagedList = new BeerPagedList(
-                beerMapper.convertToBeerList(beerPage.getContent()),
-                PageRequest.
-                        of(beerPage.getPageable().getPageNumber(),
-                                beerPage.getPageable().getPageSize()),
-                beerPage.getTotalElements());*/
+                    beerPage.getTotalElements());
+        }
 
         return beerPagedList;
     }

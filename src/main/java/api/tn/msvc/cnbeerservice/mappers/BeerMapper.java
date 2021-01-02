@@ -13,6 +13,8 @@ public interface BeerMapper {
 
     Beer mapBeerEntityToBeer(BeerEntity beerEntity);
 
+    Beer mapBeerEntityToBeerWithInventoryData(BeerEntity beerEntity);
+
     BeerEntity mapBeerToBeerEntity(Beer beer);
 
     List<Beer> convertToBeerList(List<BeerEntity> beerEntityList);
