@@ -88,6 +88,13 @@ public class BeerServiceImpl implements BeerService {
 
     }
 
+    @Cacheable(cacheNames = "beerUpcCache")
+    @Override
+    public Beer findByUpc(String upc) {
+        BeerEntity beerEntity = beerRepository.findByUpc(upc);
+        return beerMapper.mapBeerEntityToBeer(beerEntity);
+    }
+
     @Override
     public Beer saveBeer(Beer beer) {
 
@@ -111,4 +118,6 @@ public class BeerServiceImpl implements BeerService {
 
         return beerMapper.mapBeerEntityToBeer(beerEntity);
     }
+
+
 }

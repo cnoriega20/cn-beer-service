@@ -13,7 +13,11 @@ public interface BeerService {
 
     Beer getById(UUID beerId, Boolean showInventoryOnHand);
 
+    Beer findByUpc(String upc);
+
     Beer saveBeer(Beer beer);
 
     Beer updateBeer(UUID beerId, Beer beer);
+
+
 }
