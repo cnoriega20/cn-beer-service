@@ -54,6 +54,7 @@ public class BeerController {
         return new ResponseEntity<Beer>(beerService.getById(beerId, showInventoryOnHand), HttpStatus.OK);
     }
 
+
     @PostMapping
     public ResponseEntity<Beer> saveBeer(@RequestBody @Validated Beer beer){
 
